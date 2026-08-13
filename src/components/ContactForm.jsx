@@ -185,7 +185,7 @@ export default function ContactForm() {
           <ReCAPTCHA
             ref={recaptchaRef}
             // Replace with your real Google reCAPTCHA v2 checkbox site key when ready
-            sitekey="6LeIxAcTAAAAAJcZVRqyHTSca-50QG99bhOIq5A7" 
+            sitekey="6LfTfIMtAAAAANLaeIjTgXCXLuwNHjq4MjUviXSq" 
             onChange={(token) => formik.setFieldValue('recaptchaToken', token || '')}
             onExpired={() => formik.setFieldValue('recaptchaToken', '')}
           />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import biixoftCover from '../../imgs/BWillie.jpeg';
+import biixoftCover from '../../imgs/BiixoftCover.jpeg';
 
 export default function Hero() {
   return (

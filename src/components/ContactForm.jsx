@@ -185,7 +185,7 @@ export default function ContactForm() {
             <ReCAPTCHA
                 ref={recaptchaRef}
                 // ✅ Replaced with Google's global testing site key so it loads flawlessly on both localhost and Vercel
-                sitekey="6LeIxAcTAAAAAJcZVRqyHTSca-50QG99bhOIq5A7" 
+                sitekey="6LeOjoMtAAAAAEW0zd3D0zCAo3ovd5j4lqyLR_So" 
                 onChange={(token) => formik.setFieldValue('recaptchaToken', token || '')}
                 onExpired={() => formik.setFieldValue('recaptchaToken', '')}
             />

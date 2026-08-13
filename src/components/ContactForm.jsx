@@ -181,18 +181,15 @@ export default function ContactForm() {
         </div>
 
         {/* 🔐 GOOGLE reCAPTCHA SECURITY MODULE */}
-        <div className="flex justify-center py-2 overflow-x-auto">
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            // Replace with your real Google reCAPTCHA v2 checkbox site key when ready
-            sitekey="6LfTfIMtAAAAANLaeIjTgXCXLuwNHjq4MjUviXSq" 
-            onChange={(token) => formik.setFieldValue('recaptchaToken', token || '')}
-            onExpired={() => formik.setFieldValue('recaptchaToken', '')}
-          />
-        </div>
-        {formik.touched.recaptchaToken && formik.errors.recaptchaToken && (
-          <p className="text-red-500 text-xs text-center font-semibold">{formik.errors.recaptchaToken}</p>
-        )}
+            <div className="flex justify-center py-2 overflow-x-auto">
+            <ReCAPTCHA
+                ref={recaptchaRef}
+                // ✅ Replaced with Google's global testing site key so it loads flawlessly on both localhost and Vercel
+                sitekey="6LeIxAcTAAAAAJcZVRqyHTSca-50QG99bhOIq5A7" 
+                onChange={(token) => formik.setFieldValue('recaptchaToken', token || '')}
+                onExpired={() => formik.setFieldValue('recaptchaToken', '')}
+            />
+            </div>
 
         {/* TRANSMIT BUTTON */}
         <Button

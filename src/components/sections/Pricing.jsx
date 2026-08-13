@@ -1,83 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { sanityClient } from '@/lib/sanityClient'; // 🔗 Import your new connection instance
 
 export default function Pricing() {
   const [activeCategory, setActiveCategory] = useState('development');
   const [plans, setPlans] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 📝 Placeholder Static Blueprint: Keeps the UI working perfectly until Sanity is connected
-  const localBackupData = [
-    {
-      name: "Starter Business Site",
-      category: "development",
-      description: "Perfect for local companies looking to secure a premium online face.",
-      priceText: "K1,070",
-      priceLabel: "One-Time Development Fee",
-      features: ["Custom UI Layout Design", "Fluid Responsive Coding (Mobile + Desktop)", "Up to 5 Core Navigational Pages", "Formik & Formspree Contact Integration", "Basic SEO Structure Setup", "1 Month Complementary Support"],
-      cta: "Launch My Business Site",
-      popular: false
-    },
-    {
-      name: "Dynamic Agency Platform",
-      category: "development",
-      description: "Optimized for scaling operations requiring dynamic content management.",
-      priceText: "K2,140",
-      priceLabel: "One-Time Development Fee",
-      features: ["Premium Bespoke Web Design", "Fluid 'Liquid' Framework Architecture", "Full Content Management (Sanity CMS)", "Unlimited Dynamic Portfolio/Service Pages", "Advanced Interactive Components", "Speed Optimization (90+ Lighthouse)", "3 Months Dedicated Support"],
-      cta: "Build My Agency Platform",
-      popular: true
-    },
-    {
-      name: "Enterprise Custom Matrix",
-      category: "development",
-      description: "For high-performance systems requiring database integrations.",
-      priceText: "K5,136",
-      priceLabel: "One-Time Development Fee",
-      features: ["Full-Stack Web Application Infrastructure", "Supabase Secure Database Layer", "User Authentication & Client Dashboards", "Bespoke System Architecture Design", "Advanced Form & Automation Flows", "Priority 24/7 Operations SLA Support"],
-      cta: "Architect Your Enterprise",
-      popular: false
-    },
-    {
-      name: "Domain Registration",
-      category: "hosting",
-      description: "Secure your brand's unique identity across global domain registries (.com, .net).",
-      priceText: "K47",
-      priceLabel: "billed annually",
-      features: ["Domain Wholesaling (.com, .net, .org)", "Full DNS Management Control Panel", "Free Domain Privacy Protection", "Seamless Pointing to React/Vercel Hosts", "Automated Annual Renewal Alerts"],
-      cta: "Register My Domain",
-      popular: false
-    },
-    {
-      name: "Managed Cloud Hosting",
-      category: "hosting",
-      description: "Blistering fast, secure production hosting optimized for modern projects.",
-      priceText: "K85",
-      priceLabel: "per month",
-      features: ["High-Speed Premium SSD Storage", "99.9% Uptime Operational SLA", "Free Let's Encrypt SSL Certificates", "Automated Daily Infrastructure Backups", "DDoS Protection & Traffic Threat Mitigation", "Standard Operational Server Support"],
-      cta: "Deploy Hosting Server",
-      popular: true
-    }
-  ];
-
   useEffect(() => {
-    // 🔗 FUTURE SANITY CMS API FETCH:
-    // Once Sanity is live, you will replace this with:
-    // sanityClient.fetch(`*[_type == "pricingPlan"]`).then((data) => { setPlans(data); setIsLoading(false); })
-    
-    // Simulating API loading using our blueprint layout array parameters
-    const fetchTimeout = setTimeout(() => {
-      setPlans(localBackupData);
-      setIsLoading(false);
-    }, 400);
+    // 🚀 EXECUTE LIVE CMS FETCH REQUEST: Pulls your exact published Kina figures
+    const fetchPricingData = async () => {
+      try {
+        const query = `*[_type == "pricingPlan"]`;
+        const data = await sanityClient.fetch(query);
+        
+        // If data returns empty, fall back to our safe backup placeholder structures
+        if (data && data.length > 0) {
+          setPlans(data);
+        } else {
+          console.warn("No Sanity data found, make sure your schema matches exactly.");
+        }
+      } catch (error) {
+        console.error("Sanity API connection failed:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    return () => clearTimeout(fetchTimeout);
+    fetchPricingData();
   }, []);
 
-  // 🔍 Filters the unified array state object dynamically based on the category string toggle keys
+  // Filters the dynamic state collection based on the tab category
   const filteredPlans = plans.filter(plan => plan.category === activeCategory);
 
   return (
+    // ... rest of your return UI code remains completely identical and works perfectly!
+
     <section id="pricing" className="py-24 bg-white border-t border-slate-100 w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         

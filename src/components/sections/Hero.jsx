@@ -6,20 +6,28 @@ export default function Hero() {
   return (
     <section id="home" className="relative bg-[#f9f8f6] lg:bg-white w-full min-h-[85vh] flex flex-col lg:flex-row lg:items-center overflow-hidden border-b border-slate-100">
       
-      {/* 🖼️ Mobile Top Image / Desktop Left Side Background Container */}
-      <div className="relative w-full h-[45vh] sm:h-[55vh] lg:h-full lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2 pointer-events-none z-0 overflow-hidden select-none shrink-0">
+      {/* 🖼️ Mobile Responsive Image Container / Desktop Left Side Background */}
+      <div className="relative w-full lg:h-full lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2 pointer-events-none z-0 overflow-hidden select-none shrink-0 bg-[#0c1a30]">
+        {/* Using a semantic img tag with object-contain for mobile to prevent text cropping */}
+        <img 
+          src={biixoftCover} 
+          alt="BiiXoft Cover Image" 
+          className="w-full h-auto max-h-[50vh] sm:max-h-[60vh] object-contain block lg:hidden mx-auto transition-all duration-300"
+        />
+        
+        {/* Desktop-only optimized background renderer */}
         <div 
-          className="w-full h-full bg-cover bg-center lg:bg-[left_top_-30px] transition-all duration-300" 
+          className="hidden lg:block w-full h-full bg-cover lg:bg-[left_top_-30px] transition-all duration-300" 
           style={{ backgroundImage: `url(${biixoftCover})` }}
         />
         
-        {/* 🏔️ Stylish Curved Pointer / Wave Overlay (Screenshot Match) */}
+        {/* 🏔️ Stylish Curved Pointer / Wave Overlay (Pinned exactly below the image containment box) */}
         <div className="absolute inset-x-0 bottom-[-1px] w-full flex justify-center lg:hidden">
           <svg 
             viewBox="0 0 1440 120" 
             fill="none" 
             xmlns="http://w3.org" 
-            className="w-full h-[40px] drop-shadow-[0_-2px_3px_rgba(0,0,0,0.03)]"
+            className="w-full h-[32px] drop-shadow-[0_-2px_3px_rgba(0,0,0,0.03)]"
             preserveAspectRatio="none"
           >
             <path 
@@ -36,7 +44,7 @@ export default function Hero() {
       </div>
       
       {/* 📊 Content Core Container */}
-      <div className="max-w-7xl mx-auto w-full px-5 sm:px-8 lg:px-8 py-12 sm:py-16 lg:py-24 flex justify-end relative z-10 bg-[#f9f8f6] lg:bg-transparent">
+      <div className="max-w-7xl mx-auto w-full px-5 sm:px-8 lg:px-8 py-10 sm:py-14 lg:py-24 flex justify-end relative z-10 bg-[#f9f8f6] lg:bg-transparent">
         
         {/* Typography and Actions Frame */}
         <div className="w-full lg:w-1/2 text-left flex flex-col items-start lg:pl-8">
@@ -50,7 +58,7 @@ export default function Hero() {
           
           {/* Enhanced readability paragraph treatment */}
           <div className="p-0 bg-transparent rounded-none border-none mb-8 max-w-xl">
-            <p className="text-base sm:text-lg text-slate-700 leading-relaxed font-normal lg:font-semibold">
+            <p className="text-base sm:text-sm text-slate-600 leading-relaxed font-normal lg:font-semibold">
               At BiiXoft, we build modern, high-performing websites designed to help your brand grow, 
               engage customers, and stand out. Whether you need a sleek custom design or a site you 
               can easily manage yourself, we deliver tailored solutions built for results.

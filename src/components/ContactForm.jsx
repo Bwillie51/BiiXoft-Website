@@ -202,6 +202,7 @@ export default function ContactForm() {
 
         {/* 🔐 GOOGLE reCAPTCHA SECURITY MODULE */}
         <div className="flex justify-center py-2 overflow-x-auto">
+        <div className="scale-[0.90] xs:scale-[0.85] sm:scale-100 origin-center transition-transform duration-200">
           <ReCAPTCHA
             ref={recaptchaRef}
             sitekey="6LfTfIMtAAAAANLaeIjTgXCXLuwNHjq4MjUviXSq" 
@@ -211,6 +212,7 @@ export default function ContactForm() {
             }}
             onExpired={() => formik.setFieldValue('recaptchaToken', '')}
           />
+          </div>
         </div>
         {formik.touched.recaptchaToken && formik.errors.recaptchaToken && (
           <p className="text-red-500 text-xs text-center font-semibold">{formik.errors.recaptchaToken}</p>

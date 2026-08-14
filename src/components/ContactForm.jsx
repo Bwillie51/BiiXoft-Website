@@ -45,16 +45,36 @@ export default function ContactForm() {
     validationSchema: ContactSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        // Log local verified payload structure to terminal prior to future Formspree pipe execution
-        console.log("Verified Formik Form payload data package ready for submission:", values);
-        
-        alert("Success! Form validation passed, reCAPTCHA verified, payload package ready to integrate with Formspree.");
-        
-        // Reset state loops cleanly
-        recaptchaRef.current?.reset();
-        resetForm();
+        // 🚀 TRANSMIT PAYLOAD ENVELOPE TO FORMSPREE USING YOUR UNIQUE FORM ID (xoealwwk)
+        const response = await fetch("https://formspree.io/f/xoealwwk", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            name: values.name,
+            email: values.email,
+            subject: values.subject === "Others" ? values.otherSubject : values.subject,
+            message: values.message,
+            "g-recaptcha-response": values.recaptchaToken // Binds the captcha pass token cleanly to Formspree
+          })
+        });
+
+        if (response.ok) {
+          alert("Success! Your message has been sent to BiiXoft successfully.");
+          
+          // Reset state loops cleanly
+          recaptchaRef.current?.reset();
+          resetForm();
+        } else {
+          const errorData = await response.json();
+          console.error("Formspree processing error details:", errorData);
+          alert("Oops! There was a problem submitting your form. Please try again.");
+        }
       } catch (error) {
-        console.error("Form submittal exception handler error logged:", error);
+        console.error("Form submittal network transmission exception error logged:", error);
+        alert("A connectivity problem occurred. Please check your connection and try again.");
       } finally {
         setSubmitting(false);
       }
@@ -181,17 +201,22 @@ export default function ContactForm() {
         </div>
 
         {/* 🔐 GOOGLE reCAPTCHA SECURITY MODULE */}
-            <div className="flex justify-center py-2 overflow-x-auto">
-            <ReCAPTCHA
-                ref={recaptchaRef}
-                // ✅ Replaced with Google's global testing site key so it loads flawlessly on both localhost and Vercel
-                sitekey="6LeOjoMtAAAAAEW0zd3D0zCAo3ovd5j4lqyLR_So" 
-                onChange={(token) => formik.setFieldValue('recaptchaToken', token || '')}
-                onExpired={() => formik.setFieldValue('recaptchaToken', '')}
-            />
-            </div>
+        <div className="flex justify-center py-2 overflow-x-auto">
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey="6LfTfIMtAAAAANLaeIjTgXCXLuwNHjq4MjUviXSq" 
+            onChange={(token) => {
+              formik.setFieldValue('recaptchaToken', token || '');
+              formik.setFieldTouched('recaptchaToken', true, false); // Instantly clears the validation text upon click
+            }}
+            onExpired={() => formik.setFieldValue('recaptchaToken', '')}
+          />
+        </div>
+        {formik.touched.recaptchaToken && formik.errors.recaptchaToken && (
+          <p className="text-red-500 text-xs text-center font-semibold">{formik.errors.recaptchaToken}</p>
+        )}
 
-        {/* TRANSMIT BUTTON */}
+                {/* TRANSMIT BUTTON */}
         <Button
           type="submit"
           disabled={formik.isSubmitting}

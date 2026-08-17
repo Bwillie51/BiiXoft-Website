@@ -15,7 +15,7 @@ import whatsappIcon from './imgs/WhatsappIcon.jpg';
 export default function App() {
   // 2. Setup your WhatsApp details
   const phoneNumber = "67581862924"; 
-  const message = encodeURIComponent("Hello!I visited your website and would like to get in touch with BiiXoft.");
+  const message = encodeURIComponent("Hello! I visited your website and would like to know more about your services.");
   
   // FIXED LINE: Added the required forward slash and the dollar sign ($) for JavaScript evaluation
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;

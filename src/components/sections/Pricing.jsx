@@ -19,6 +19,7 @@ export default function Pricing() {
           setPlans(data);
         } else {
           console.warn("No Sanity data found, make sure your schema matches exactly.");
+          setPlans([]); // Fixed potential mapping error
         }
       } catch (error) {
         console.error("Sanity API connection failed:", error);
@@ -34,8 +35,6 @@ export default function Pricing() {
   const filteredPlans = plans.filter(plan => plan.category === activeCategory);
 
   return (
-    // ... rest of your return UI code remains completely identical and works perfectly!
-
     <section id="pricing" className="py-24 bg-white border-t border-slate-100 w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -129,7 +128,75 @@ export default function Pricing() {
           </div>
         )}
 
-      </div>
+        {/* ========================================================================= */}
+        {/* 📊 START OF NEW BIIXOFT ALL-IN-ONE COMBO PRICING TABLE ADDITION          */}
+        {/* ========================================================================= */}
+        <div className="mt-24 border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm bg-slate-950 p-6 sm:p-8">
+          <div className="mb-6">
+            <h3 className="text-lg font-black text-white flex items-center gap-2">
+              BiiXoft All-in-One Combo Pricing Table <span className ="hover:text-blue-600"><i>25%</i> OFF!!!</span>
+            </h3>
+            <p className="text-s text-slate-400 mt-1">
+              Maximize your savings by bundling your design workspace infrastructure together with active cloud hosting tools.
+              
+            </p>
+          </div>
+
+          <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900">
+            <table className="w-full text-left border-collapse min-w-[700px]">
+              <thead>
+                <tr className="bg-slate-800 text-slate-300 text-xs font-bold uppercase tracking-wider border-b border-slate-700">
+                  <th className="py-4 px-6">Package Tier</th>
+                  <th className="py-4 px-6">Web Dev Cost (One-Time)</th>
+                  <th className="py-4 px-6">Monthly Ecosystem Cost</th>
+                  <th className="py-4 px-6 text-slate-500">Standard Total (1st Month)</th>
+                  <th className="py-4 px-6 text-blue-400">25% OFF Combo Price (Your First Invoice)</th>
+                  <th className="py-4 px-6">Ongoing Monthly Renewal</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-800 text-slate-400 text-xs sm:text-sm">
+                <tr className="hover:bg-slate-800/40 transition-colors">
+                  <td className="py-5 px-6 font-black text-white whitespace-nowrap">🥉 Bronze Combo</td>
+                  <td className="py-5 px-6 font-medium text-slate-300">K575.00</td>
+                  <td className="py-5 px-6 font-medium text-slate-300">K90.00</td>
+                  <td className="py-5 px-6 line-through text-slate-500">K665.00</td>
+                  <td className="py-5 px-6">
+                    <span className="inline-block bg-blue-950 border border-blue-800 text-blue-400 font-extrabold px-3 py-1 rounded-lg">
+                      K498.75
+                    </span>
+                  </td>
+                  <td className="py-5 px-6 font-semibold text-emerald-400 whitespace-nowrap">K90.00 / month</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40 transition-colors">
+                  <td className="py-5 px-6 font-black text-white whitespace-nowrap">🥈 Silver Combo</td>
+                  <td className="py-5 px-6 font-medium text-slate-300">K1,350.00</td>
+                  <td className="py-5 px-6 font-medium text-slate-300">K125.00</td>
+                  <td className="py-5 px-6 line-through text-slate-500">K1,475.00</td>
+                  <td className="py-5 px-6">
+                    <span className="inline-block bg-blue-950 border border-blue-800 text-blue-400 font-extrabold px-3 py-1 rounded-lg">
+                      K1,106.25
+                    </span>
+                  </td>
+                  <td className="py-5 px-6 font-semibold text-emerald-400 whitespace-nowrap">K125.00 / month</td>
+                </tr>
+                <tr className="hover:bg-slate-800/40 transition-colors">
+                  <td className="py-5 px-6 font-black text-white whitespace-nowrap">🥇 Gold Combo</td>
+                  <td className="py-5 px-6 font-medium text-slate-300">K3,500.00</td>
+                  <td className="py-5 px-6 font-medium text-slate-300">K328.00</td>
+                  <td className="py-5 px-6 line-through text-slate-500">K3,828.00</td>
+                  <td className="py-5 px-6">
+                    <span className="inline-block bg-blue-950 border border-blue-800 text-blue-400 font-extrabold px-3 py-1 rounded-lg">
+                      K2,871.00
+                    </span>
+                  </td>
+                  <td className="py-5 px-6 font-semibold text-emerald-400 whitespace-nowrap">K328.00 / month</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        </div>
     </section>
   );
 }

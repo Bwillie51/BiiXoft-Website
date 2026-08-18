@@ -134,7 +134,7 @@ export default function Pricing() {
         <div className="mt-24 border border-slate-200/80 rounded-3xl overflow-hidden shadow-sm bg-slate-950 p-6 sm:p-8">
           <div className="mb-6">
             <h3 className="text-lg font-black text-white flex items-center gap-2">
-              BiiXoft All-in-One Combo Pricing Table <span className ="hover:text-blue-600"><i>25%</i> OFF!!!</span>
+              BiiXoft All-in-One Combo <span className ="hover:text-blue-600"><i>25%</i> OFF!!!</span>
             </h3>
             <p className="text-s text-slate-400 mt-1">
               Maximize your savings by bundling your design workspace infrastructure together with active cloud hosting tools.

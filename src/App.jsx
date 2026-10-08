@@ -8,6 +8,7 @@ import Pricing from './components/sections/Pricing';
 import Reviews from './components/sections/Reviews';
 import ContactForm from './components/ContactForm';
 import Footer from './components/layout/Footer';
+import { Analytics } from '@vercel/analytics/react';
 
 // 1. Import your WhatsApp image from your src/imgs folder
 import whatsappIcon from './imgs/WhatsappIcon.jpg';
@@ -40,6 +41,7 @@ export default function App() {
       </main>
 
       <Footer />
+      <Analytics /> 
 
       {/* 3. Global Floating WhatsApp Button */}
       <a 

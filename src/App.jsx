@@ -9,7 +9,7 @@ import Reviews from './components/sections/Reviews';
 import ContactForm from './components/ContactForm';
 import Footer from './components/layout/Footer';
 import { Analytics } from '@vercel/analytics/react';
-import whatsappIcon from './imgs/whatsappIcon.jpg';
+import whatsappIcon from './imgs/WhatsappIcon.jpg';
 
 // 🔮 Import the Animation on Scroll library and its core stylesheet
 import AOS from 'aos';

@@ -11,7 +11,7 @@ import Footer from './components/layout/Footer';
 import { Analytics } from '@vercel/analytics/react';
 import whatsappIcon from './imgs/WhatsappIcon.jpg';
 
-// 🔮 Import the Animation on Scroll library and its core stylesheet
+// Import the Animation on Scroll library and its core stylesheet
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -20,17 +20,16 @@ export default function App() {
   const message = encodeURIComponent("Hello! I visited your website and would like to know more about your services.");
   const whatsappUrl = `https://wa.me{phoneNumber}?text=${message}`;
 
-  // 🔄 Initialize high-visibility animation parameters on layout mount
+  // Initialize snappy and optimized transition parameters on mount
   useEffect(() => {
     AOS.init({
-      duration: 1400,            // Takes 1.4 seconds for an ultra-smooth, slow-dissolve entrance
-      once: false,               // Re-animates continuously when scrolling up or down
-      mirror: true,              // Forces identical transitions on reverse scrolling
-      offset: 250,               // Triggers the dissolve 250px early to stay blurry/faded near screen edges
-      easing: 'ease-out-quint',  // Smooth cinematic deceleration motion curve
+      duration: 1000,
+      once: false,
+      mirror: true,
+      offset: 80, // Lowered offset to trigger animations smoothly without layout lag
+      easing: 'ease-out-cubic',
     });
     
-    // Explicit refresh to force recalculation of layout nodes across varying aspect ratios
     AOS.refresh();
   }, []);
 
@@ -38,38 +37,36 @@ export default function App() {
     <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-500 selection:text-white antialiased relative overflow-x-hidden scroll-smooth">
       <Navbar />
 
-      {/* 📊 DUAL-DIRECTIONAL HIGH-VISIBILITY SCROLL ANCHORS */}
-      {/* Added substantial responsive padding clusters (py-28) to give each section clear breathing room to fade */}
+      {/* 📊 CLEAN INTEGRATED CONTENT FEED MATRIX */}
+      {/* Removed "py-28 md:py-36" wrapper layout blocks entirely to close the huge spacing gaps */}
       <main className="space-y-0 px-0">
         
-        {/* Hero section renders instantly on top-level initialization */}
         <div data-aos="fade-zoom-in" data-aos-duration="1000">
           <Hero />
         </div>
 
-        {/* Following sections fade from deep blur to crisp clarity on all devices */}
-        <div className="py-28 md:py-36 w-full" data-aos="fade-zoom-in" data-aos-anchor-placement="top-bottom">
+        <div data-aos="fade-up">
           <WhoWeAre />
         </div>
 
-        <div className="py-28 md:py-36 w-full" data-aos="fade-zoom-in" data-aos-anchor-placement="top-bottom">
+        <div data-aos="fade-up">
           <WhyUs />
         </div>
 
-        <div className="py-28 md:py-36 w-full" data-aos="fade-zoom-in" data-aos-anchor-placement="top-bottom">
+        <div data-aos="fade-up">
           <Projects />
         </div>
 
-        <div className="py-28 md:py-36 w-full" data-aos="fade-zoom-in" data-aos-anchor-placement="top-bottom">
+        <div data-aos="fade-up">
           <Pricing />
         </div>
 
-        <div className="py-28 md:py-36 w-full" data-aos="fade-zoom-in" data-aos-anchor-placement="top-bottom">
+        <div data-aos="fade-up">
           <Reviews />
         </div>
 
-        <div className="py-28 md:py-36 w-full" data-aos="fade-zoom-in" data-aos-anchor-placement="top-bottom">
-          <section id="contact" className="bg-slate-50 border-t border-slate-200/60 py-16">
+        <div data-aos="fade-up">
+          <section id="contact" className="bg-slate-50 border-t border-slate-200/60 py-24">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <ContactForm />
             </div>
@@ -81,7 +78,7 @@ export default function App() {
       <Footer />
       <Analytics />
 
-      {/* 💬 Global Floating WhatsApp Button Container */}
+      {/* Global Floating WhatsApp Quick Connect Button Option */}
       <div className="fixed bottom-6 right-6 z-50 flex">
         <a
           href={whatsappUrl}

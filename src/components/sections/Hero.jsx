@@ -1,82 +1,109 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import biixoftCover from '../../imgs/BiixoftCover.jpeg';
+import { sanityClient } from '@/lib/sanityClient';
+import imageUrlBuilder from '@sanity/image-url';
+
+const builder = imageUrlBuilder(sanityClient);
+function urlFor(source) {
+  return builder.image(source);
+}
 
 export default function Hero() {
+  const [cmsData, setCmsData] = useState(null);
+
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      try {
+        // Targets the first single published configuration document
+        const data = await sanityClient.fetch(`*[_type == "heroSection"][0]`);
+        if (data) setCmsData(data);
+      } catch (error) {
+        console.warn("Sanity Hero fetch query unconfigured. Using defaults.", error);
+      }
+    };
+    fetchHeroData();
+  }, []);
+
+  const activeBgImage = cmsData?.backgroundImage ? urlFor(cmsData.backgroundImage).url() : biixoftCover;
+
   return (
-    <section id="home" className="relative bg-[#f9f8f6] lg:bg-white w-full min-h-[85vh] flex flex-col lg:flex-row lg:items-center overflow-hidden border-b border-slate-100">
+    <section id="home" className="relative bg-white w-full overflow-hidden border-b border-slate-100 min-h-none md:min-h-[70vh] lg:min-h-[80vh] xl:min-h-[85vh] flex items-center">
       
-      {/* 🖼️ Mobile Responsive Image Container / Desktop Left Side Background */}
-      <div className="relative w-full lg:h-full lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2 pointer-events-none z-0 overflow-hidden select-none shrink-0 bg-[#0c1a30]">
-        {/* Using a semantic img tag with object-contain for mobile to prevent text cropping */}
+      {/* 🖥️ WIDESCREEN DESKTOP ONLY: Full-bleed background with left-to-right fade mask */}
+      <div className="hidden xl:block absolute inset-0 z-0 select-none pointer-events-none">
         <img 
-          src={biixoftCover} 
-          alt="BiiXoft Cover Image" 
-          className="w-full h-auto max-h-[50vh] sm:max-h-[60vh] object-contain block lg:hidden mx-auto transition-all duration-300"
+          src={activeBgImage} 
+          alt="BiiXoft Widescreen Backdrop" 
+          className="w-full h-full object-cover object-left-top"
+          loading="eager"
         />
+        {/* Reverted asymmetry veil: Left side clear, right side fades to blurred white for text */}
+        <div className="absolute inset-0 bg-gradient-to-l from-white via-white/1 to-transparent z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.4)_70%,rgba(255,255,255,0.7)_50%,#fff_90%)] z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10" /> 
+      </div>
+
+      {/* 📊 CORE FLEX CONTROLLER FRAME */}
+      <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row xl:justify-end items-center gap-8 md:gap-6 lg:gap-12 px-4 sm:px-6 lg:px-8 py-0 md:py-12 xl:py-24 relative z-10">
         
-        {/* Desktop-only optimized background renderer */}
-        <div 
-          className="hidden lg:block w-full h-full bg-cover lg:bg-[left_top_-30px] transition-all duration-300" 
-          style={{ backgroundImage: `url(${biixoftCover})` }}
-        />
-        
-        {/* 🏔️ Stylish Curved Pointer / Wave Overlay (Pinned exactly below the image containment box) */}
-        <div className="absolute inset-x-0 bottom-[-1px] w-full flex justify-center lg:hidden">
-          <svg 
-            viewBox="0 0 1440 120" 
-            fill="none" 
-            xmlns="http://w3.org" 
-            className="w-full h-[32px] drop-shadow-[0_-2px_3px_rgba(0,0,0,0.03)]"
-            preserveAspectRatio="none"
-          >
-            <path 
-              d="M0,120 L1440,120 L1440,60 C1000,60 820,0 720,0 C620,0 440,60 0,60 Z" 
-              fill="#f9f8f6" 
-            />
-          </svg>
+        {/* 📱 MOBILE, PORTRAIT TABLET & STANDARD LAPTOP CANVAS LAYER (Hidden on widescreen XL monitors) */}
+        <div className="w-full md:w-1/2 xl:hidden block relative h-[260px] sm:h-[380px] md:h-[420px] lg:h-[480px] overflow-hidden select-none shrink-0 bg-white">
+          <img 
+            src={activeBgImage} 
+            alt="BiiXoft Service Graphics" 
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Mobile Bottom Smooth Feather Edge Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent z-10" />
+
+          {/* 🌊 The Original Wavy Curvy Bottom Divider Line (Mobile & Tablet viewports only) */}
+          <div className="absolute inset-x-0 bottom-0 w-full flex justify-center z-20 pointer-events-none">
+            <svg
+              viewBox="0 0 1440 220"
+              xmlns="http://w3.org"
+              className="w-full h-auto text-white fill-current translate-y-1"
+              preserveAspectRatio="none"
+            >
+              <path d="M 0,220 L1440,220 L1440,80 C1200,80 1260,20 1000,20 C 620,20 660,60 0,60 Z" />
+            </svg>
+          </div>
         </div>
 
-        {/* Desktop-only Masks (Hidden on Mobile) */}
-        <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-white" />
-        <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.0)_100%,rgba(255,255,255,0.8)_80%,#fff_100%)]" />
-        <div className="hidden lg:block absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
-      </div>
-      
-      {/* 📊 Content Core Container */}
-      <div className="max-w-7xl mx-auto w-full px-5 sm:px-8 lg:px-8 py-10 sm:py-14 lg:py-24 flex justify-end relative z-10 bg-[#f9f8f6] lg:bg-transparent">
-        
-        {/* Typography and Actions Frame */}
-        <div className="w-full lg:w-1/2 text-left flex flex-col items-start lg:pl-8">
+        {/* 📝 CORE COPY TYPOGRAPHY SHELL */}
+        {/* Pushed gracefully onto pure solid white on smaller devices, and glides perfectly onto the right on big monitors */}
+        <div className="w-full md:w-1/2 xl:w-1/2 text-center md:text-left flex flex-col items-center md:items-start xl:pl-12 pb-12 md:pb-0 bg-white xl:bg-transparent px-2 sm:px-4 md:px-0 rounded-3xl">
           
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 mb-5 leading-[1.2] lg:leading-[1.15]">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50/90 text-blue-600 border border-blue-100 mb-6 select-none shadow-sm">
+            ✨ Transform Your Online Presence
+          </span>
+          
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 mb-6 leading-[1.15]">
             The Face of Your Business in <br className="hidden sm:block"/>
-            <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent lg:text-inherit lg:bg-none lg:text-blue-600">
+            <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
               Today's Digital World
             </span>
           </h1>
-          
-          {/* Enhanced readability paragraph treatment */}
-          <div className="p-0 bg-transparent rounded-none border-none mb-8 max-w-xl">
-            <p className="text-base sm:text-sm text-slate-600 leading-relaxed font-normal lg:font-semibold">
-              At BiiXoft, we build modern, high-performing websites designed to help your brand grow, 
-              engage customers, and stand out. Whether you need a sleek custom design or a site you 
-              can easily manage yourself, we deliver tailored solutions built for results.
-            </p>
-          </div>
-          
+
+          <p className="text-base sm:text-lg text-slate-600 max-w-xl mb-10 leading-relaxed font-semibold">
+            At BiiXoft, we build modern, high-performing websites designed to help your brand grow, engage customers, and stand out. Whether you need a sleek custom design or a site you can easily manage yourself, we deliver tailored solutions built for results.
+          </p>
+
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <Button asChild size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-6 rounded-xl shadow-lg shadow-blue-600/10 transition-all duration-200 border-none">
+            <Button asChild size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-6 rounded-xl shadow-lg shadow-blue-600/10 transition-all duration-200 hover:-translate-y-0.5 border-none text-sm">
               <a href="#contact">Build Your New Website</a>
             </Button>
-            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto border-slate-200 bg-white lg:bg-slate-50 text-slate-700 hover:bg-slate-100 font-bold px-8 py-6 rounded-xl transition-all">
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 font-bold px-8 py-6 rounded-xl transition-all text-sm">
               <a href="#who-we-are">Explore Our Services</a>
             </Button>
           </div>
 
         </div>
+
       </div>
 
+      {/* Corporate blueprint grid pattern background layer */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#f8fafc_1px,transparent_1px),linear-gradient(to_bottom,#f8fafc_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-50 z-0 pointer-events-none" />
     </section>
   );
 }

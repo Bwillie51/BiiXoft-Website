@@ -50,7 +50,7 @@ export default function Navbar() {
           className="flex items-center space-x-2 sm:space-x-3.5 shrink-0 group cursor-pointer" 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl overflow-hidden shadow-md shadow-blue-500/10 border-2 border-white bg-white group-hover:scale-105 group-hover:border-blue-500/20 transition-all duration-300">
+          <div className="w-9 h-9 sm:w-13 sm:h-13 rounded-xl sm:rounded-2xl overflow-hidden shadow-md shadow-blue-500/10 border-2 border-white bg-white group-hover:scale-105 group-hover:border-blue-500/20 transition-all duration-300">
             <img 
               src={Logo} 
               alt="BiiXoft Official Logo" 

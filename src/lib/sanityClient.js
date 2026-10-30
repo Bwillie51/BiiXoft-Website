@@ -5,5 +5,5 @@ export const sanityClient = createClient({
   projectId: 'p7hok33v', 
   dataset: 'production',
   useCdn: false, // Set to false to ensure immediate real-time data updates on publish!
-  apiVersion: '2026-08-13', // Uses the current calendar operational date
+  apiVersion: '2026-10-30', // Uses the current calendar operational date
 })

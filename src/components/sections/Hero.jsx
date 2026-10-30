@@ -11,17 +11,19 @@ function urlFor(source) {
 export default function Hero() {
   const [cmsData, setCmsData] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
+    useEffect(() => {
+    const fetchHeroData = async () => {
       try {
+        // ✅ CHANGED: Appended [0] to fetch the singular active configuration block item
         const data = await sanityClient.fetch(`*[_type == "heroSection"][0]`);
-        setCmsData(data);
+        if (data) setCmsData(data);
       } catch (error) {
-        console.error("Sanity Hero fetch query unconfigured. Using defaults.", error);
+        console.warn("Sanity Hero fetch query unconfigured. Using defaults.", error);
       }
     };
-    fetchData();
+    fetchHeroData();
   }, []);
+
 
   const activeImage = cmsData?.backgroundImage 
     ? urlFor(cmsData.backgroundImage).url() 

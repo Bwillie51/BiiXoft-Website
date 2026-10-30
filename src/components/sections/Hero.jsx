@@ -15,7 +15,7 @@ export default function Hero() {
   useEffect(() => {
     const fetchHeroData = async () => {
       try {
-        // 🔄 FIXED: Added [0] to extract the first singular active content entry from the Sanity dataset list array
+        // 🔄 CORRECTED: Pulls the singular active content document object from your dataset cleanly
         const data = await sanityClient.fetch(`*[_type == "heroSection"][0]`);
         if (data) setCmsData(data);
       } catch (error) {
@@ -25,54 +25,50 @@ export default function Hero() {
     fetchHeroData();
   }, []);
 
-  // ✅ SAFELY MAPS IMAGE ASSETS: Pulls your live published Sanity image asset token, slips to local backup if empty
   const activeBgImage = cmsData?.backgroundImage ? urlFor(cmsData.backgroundImage).url() : biixoftCover;
 
   return (
-    <section id="home" className="relative bg-white w-full overflow-hidden border-b border-slate-100 min-h-none md:min-h-[70vh] lg:min-h-[80vh] xl:min-h-[85vh] flex items-center">
+    <section id="home" className="relative bg-white w-full overflow-hidden border-b border-slate-100 min-h-none lg:min-h-[85vh] flex lg:items-center">
       
-      {/* 🖥️ WIDESCREEN DESKTOP ONLY: Full-bleed background with left-to-right fade mask */}
-      <div className="hidden xl:block absolute inset-0 z-0 select-none pointer-events-none">
+      {/* 🖼️ INTEGRATED BACKGROUND GRAPHIC LAYER */}
+      {/* Mobile/Tablet: Anchored as a standalone banner. Desktop: Full-bleed background */}
+      <div className="absolute top-0 inset-x-0 h-[40vh] sm:h-[45vh] lg:h-full lg:inset-0 z-0 select-none pointer-events-none">
         <img 
           src={activeBgImage} 
-          alt="BiiXoft Widescreen Backdrop" 
-          className="w-full h-full object-cover object-left-top"
+          alt="BiiXoft Service Banner Backdrop" 
+          className="w-full h-full object-cover object-center lg:object-left-top"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-l from-white via-white/90 to-transparent z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.4)_10%,rgba(255,255,255,0.7)_50%,#fff_95%)] z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent z-10" />
+        
+        {/* 📱 Mobile-Only Smooth Bottom Fade */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent lg:hidden block" />
+        
+        {/* 🖥️ DESKTOP ONLY: High-Contrast Layout Mask (Left side clear, right side fades to white for text) */}
+        <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-transparent via-white/45 to-white" />
+        <div className="hidden lg:block absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.4)_78%,rgba(255,255,255,0.7)_50%,#fff_90%)]" />
+        {/* <div className="hidden lg:block absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" /> */}
       </div>
 
-      {/* 📊 CORE FLEX CONTROLLER FRAME */}
-      <div className="w-full max-w-7xl mx-auto flex flex-col md:flex-row xl:justify-end items-center gap-8 md:gap-6 lg:gap-12 px-4 sm:px-6 lg:px-8 py-0 md:py-12 xl:py-24 relative z-10">
+      {/* 🌊 RESTORED: The Original Wavy Curvy Bottom Divider Line (Hidden on Desktop) */}
+      <div className="absolute top-[36vh] sm:top-[41vh] inset-x-0 w-full flex justify-center lg:hidden z-20 pointer-events-none">
+        <svg
+          viewBox="0 0 1440 220"
+          xmlns="http://w3.org"
+          className="w-full h-auto text-white fill-current translate-y-px"
+          preserveAspectRatio="none"
+        >
+          <path d="M 0,220 L1440,220 L1440,80 C1200,80 1260,20 1000,20 C 620,20 660,60 0,60 Z" />
+        </svg>
+      </div>
+
+      {/* 📊 MAIN CONTENT GRID PLATFORM */}
+      {/* Uses pt-[38vh] on mobile to prevent clipping the image, and justify-end on desktop to slide text to the right */}
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-[38vh] sm:pt-[43vh] lg:py-24 pb-16 relative z-10 flex justify-center lg:justify-end">
         
-        {/* 📱 MOBILE, PORTRAIT TABLET & STANDARD LAPTOP CANVAS LAYER (Hidden on widescreen XL monitors) */}
-        <div className="w-full md:w-1/2 xl:hidden block relative h-[260px] sm:h-[380px] md:h-[420px] lg:h-[480px] overflow-hidden select-none shrink-0 bg-white">
-          <img 
-            src={activeBgImage} 
-            alt="BiiXoft Service Graphics" 
-            className="w-full h-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent z-10" />
-
-          {/* 🌊 The Original Wavy Curvy Bottom Divider Line (Mobile & Tablet viewports only) */}
-          <div className="absolute inset-x-0 bottom-0 w-full flex justify-center z-20 pointer-events-none">
-            <svg
-              viewBox="0 0 1440 220"
-              xmlns="http://w3.org"
-              className="w-full h-auto text-white fill-current translate-y-1"
-              preserveAspectRatio="none"
-            >
-              <path d="M 0,220 L1440,220 L1440,80 C1200,80 1260,20 1000,20 C 620,20 660,60 0,60 Z" />
-            </svg>
-          </div>
-        </div>
-
-        {/* 📝 CORE COPY TYPOGRAPHY SHELL */}
-        <div className="w-full md:w-1/2 xl:w-1/2 text-center md:text-left flex flex-col items-center md:items-start xl:pl-12 pb-12 md:pb-0 bg-white xl:bg-transparent px-2 sm:px-4 md:px-0 rounded-3xl">
+        {/* Typography Content Wrapper */}
+        <div className="w-full lg:w-1/2 text-center lg:text-left flex flex-col items-center lg:items-start lg:pl-12 bg-white lg:bg-transparent px-2 sm:px-6 lg:px-0 rounded-3xl">
           
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50/90 text-blue-600 border border-blue-100 mb-6 select-none shadow-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100 mb-6 select-none shadow-sm animate-pulse">
             ✨ Transform Your Online Presence
           </span>
           
@@ -97,11 +93,8 @@ export default function Hero() {
           </div>
 
         </div>
-
       </div>
 
-      {/* Corporate blueprint grid pattern background layer */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#f8fafc_1px,transparent_1px),linear-gradient(to_bottom,#f8fafc_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-50 z-0 pointer-events-none" />
     </section>
   );
 }

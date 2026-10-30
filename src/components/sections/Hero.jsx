@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import biixoftCover from '../../imgs/BiixoftCover.jpeg';
+// import biixoftCover from '../../imgs/BiixoftCover.jpeg';
 import { sanityClient } from '@/lib/sanityClient';
 import imageUrlBuilder from '@sanity/image-url';
 

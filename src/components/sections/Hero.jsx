@@ -12,10 +12,10 @@ function urlFor(source) {
 export default function Hero() {
   const [cmsData, setCmsData] = useState(null);
 
-  useEffect(() => {
+    useEffect(() => {
     const fetchHeroData = async () => {
       try {
-        // 🔄 CORRECTED: Pulls the singular active content document object from your dataset cleanly
+        // ✅ CHANGED: Added [0] to extract the first singular document directly from the dataset list
         const data = await sanityClient.fetch(`*[_type == "heroSection"][0]`);
         if (data) setCmsData(data);
       } catch (error) {
@@ -24,6 +24,7 @@ export default function Hero() {
     };
     fetchHeroData();
   }, []);
+
 
   const activeBgImage = cmsData?.backgroundImage ? urlFor(cmsData.backgroundImage).url() : biixoftCover;
 

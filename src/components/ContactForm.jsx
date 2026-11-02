@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-// Bulletproof validation schema with Yup
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, 'Name is too short!')
@@ -17,7 +16,6 @@ const ContactSchema = Yup.object().shape({
     .required('Please enter your email address'),
   subject: Yup.string()
     .required('Please select a subject category'),
-  // Validation applies dynamically only if "Others" option is actively selected
   otherSubject: Yup.string().when('subject', {
     is: 'Others',
     then: () => Yup.string().min(3, 'Please specify your subject').required('Please enter your custom subject'),
@@ -45,7 +43,6 @@ export default function ContactForm() {
     validationSchema: ContactSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        // 🚀 TRANSMIT PAYLOAD ENVELOPE TO FORMSPREE USING YOUR UNIQUE FORM ID (xoealwwk)
         const response = await fetch("https://formspree.io/f/xoealwwk", {
           method: "POST",
           headers: {
@@ -57,14 +54,12 @@ export default function ContactForm() {
             email: values.email,
             subject: values.subject === "Others" ? values.otherSubject : values.subject,
             message: values.message,
-            "g-recaptcha-response": values.recaptchaToken // Binds the captcha pass token cleanly to Formspree
+            "g-recaptcha-response": values.recaptchaToken
           })
         });
 
         if (response.ok) {
           alert("Success! Your message has been sent to BiiXoft successfully.");
-          
-          // Reset state loops cleanly
           recaptchaRef.current?.reset();
           resetForm();
         } else {
@@ -73,7 +68,7 @@ export default function ContactForm() {
           alert("Oops! There was a problem submitting your form. Please try again.");
         }
       } catch (error) {
-        console.error("Form submittal network transmission exception error logged:", error);
+        console.error("Form submittal network transmission exception handler error logged:", error);
         alert("A connectivity problem occurred. Please check your connection and try again.");
       } finally {
         setSubmitting(false);
@@ -82,15 +77,15 @@ export default function ContactForm() {
   });
 
   return (
-    <div className="bg-white border border-slate-200/80 p-6 sm:p-10 rounded-3xl shadow-xl max-w-xl mx-auto w-full box-border">
-      <h3 className="text-2xl font-black text-slate-900 text-center mb-2">Start Your Project</h3>
-      <p className="text-slate-500 text-center text-xs sm:text-sm mb-8">Send us your operational requirements to kickstart your custom digital upgrade.</p>
+    <div className="bg-card border border-border p-6 sm:p-10 rounded-3xl shadow-xl max-w-xl mx-auto w-full box-border text-left">
+      <h3 className="text-2xl font-black text-foreground text-center mb-2">Start Your Project</h3>
+      <p className="text-muted-foreground text-center text-xs sm:text-sm mb-8">Send us your operational requirements to kickstart your custom digital upgrade.</p>
 
       <form onSubmit={formik.handleSubmit} className="space-y-6">
         
         {/* FULL NAME */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Full Name</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Full Name</label>
           <Input
             id="name"
             name="name"
@@ -99,18 +94,18 @@ export default function ContactForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.name}
-            className={`w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus-visible:ring-blue-600 h-11 focus-visible:bg-white ${
-              formik.touched.name && formik.errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''
+            className={`w-full bg-background border border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary h-11 transition-all ${
+              formik.touched.name && formik.errors.name ? 'border-destructive focus-visible:ring-destructive' : ''
             }`}
           />
           {formik.touched.name && formik.errors.name && (
-            <p className="text-red-500 text-xs mt-1.5 font-semibold">{formik.errors.name}</p>
+            <p className="text-destructive text-xs mt-1.5 font-semibold">{formik.errors.name}</p>
           )}
         </div>
 
         {/* EMAIL ADDRESS */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Email Address</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Email Address</label>
           <Input
             id="email"
             name="email"
@@ -119,49 +114,48 @@ export default function ContactForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
-            className={`w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus-visible:ring-blue-600 h-11 focus-visible:bg-white ${
-              formik.touched.email && formik.errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''
+            className={`w-full bg-background border border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary h-11 transition-all ${
+              formik.touched.email && formik.errors.email ? 'border-destructive focus-visible:ring-destructive' : ''
             }`}
           />
           {formik.touched.email && formik.errors.email && (
-            <p className="text-red-500 text-xs mt-1.5 font-semibold">{formik.errors.email}</p>
+            <p className="text-destructive text-xs mt-1.5 font-semibold">{formik.errors.email}</p>
           )}
         </div>
 
         {/* SUBJECT SELECTION DROP-DOWN */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Subject</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Subject</label>
           <select
             id="subject"
             name="subject"
             onChange={(e) => {
               formik.handleChange(e);
-              // Clear the custom input if the user changes away from 'Others'
               if (e.target.value !== 'Others') {
                 formik.setFieldValue('otherSubject', '');
               }
             }}
             onBlur={formik.handleBlur}
             value={formik.values.subject}
-            className={`w-full bg-slate-50 border border-slate-200 text-slate-900 focus:border-blue-600 focus:bg-white rounded-lg px-3 h-11 text-sm outline-none font-medium transition-all cursor-pointer ${
-              formik.touched.subject && formik.errors.subject ? 'border-red-500' : ''
+            className={`w-full bg-background border border-border text-foreground rounded-lg px-3 h-11 text-sm outline-none font-medium transition-all focus:border-primary cursor-pointer ${
+              formik.touched.subject && formik.errors.subject ? 'border-destructive' : ''
             }`}
           >
-            <option value="" disabled hidden>Select an option...</option>
-            <option value="Discuss Projects">Discuss Projects</option>
-            <option value="Send Review / Testimony">Send Review / Testimony</option>
-            <option value="General Enquiries">General Enquiry</option>
-            <option value="Others">Others</option>
+            <option value="" disabled hidden className="bg-card text-muted-foreground">Select an option...</option>
+            <option value="Discuss Projects" className="bg-card text-foreground">Discuss Projects</option>
+            <option value="Send Review / Testimony" className="bg-card text-foreground">Send Review / Testimony</option>
+            <option value="General Enquiries" className="bg-card text-foreground">General Enquiry</option>
+            <option value="Others" className="bg-card text-foreground">Others</option>
           </select>
           {formik.touched.subject && formik.errors.subject && (
-            <p className="text-red-500 text-xs mt-1.5 font-semibold">{formik.errors.subject}</p>
+            <p className="text-destructive text-xs mt-1.5 font-semibold">{formik.errors.subject}</p>
           )}
         </div>
 
-        {/* CONDITIONAL FIELD: Displays smoothly only when 'Others' dropdown selection object is active */}
+        {/* CONDITIONAL FIELD */}
         {formik.values.subject === 'Others' && (
           <div className="animate-in fade-in slide-in-from-top-2 duration-200">
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Specify Custom Subject</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Specify Custom Subject</label>
             <Input
               id="otherSubject"
               name="otherSubject"
@@ -170,19 +164,19 @@ export default function ContactForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.otherSubject}
-              className={`w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus-visible:ring-blue-600 h-11 focus-visible:bg-white ${
-                formik.touched.otherSubject && formik.errors.otherSubject ? 'border-red-500 focus-visible:ring-red-500' : ''
+              className={`w-full bg-background border border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary h-11 transition-all ${
+                formik.touched.otherSubject && formik.errors.otherSubject ? 'border-destructive focus-visible:ring-destructive' : ''
               }`}
             />
             {formik.touched.otherSubject && formik.errors.otherSubject && (
-              <p className="text-red-500 text-xs mt-1.5 font-semibold">{formik.errors.otherSubject}</p>
+              <p className="text-destructive text-xs mt-1.5 font-semibold">{formik.errors.otherSubject}</p>
             )}
           </div>
         )}
 
         {/* PROJECT BRIEF TEXTAREA */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Project Brief</label>
+          <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Project Brief</label>
           <Textarea
             id="message"
             name="message"
@@ -191,38 +185,41 @@ export default function ContactForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.message}
-            className={`w-full bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 focus-visible:ring-blue-600 text-sm resize-none focus-visible:bg-white ${
-              formik.touched.message && formik.errors.message ? 'border-red-500 focus-visible:ring-red-500' : ''
+            className={`w-full bg-background border border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary text-sm resize-none transition-all ${
+              formik.touched.message && formik.errors.message ? 'border-destructive focus-visible:ring-destructive' : ''
             }`}
           />
           {formik.touched.message && formik.errors.message && (
-            <p className="text-red-500 text-xs mt-1.5 font-semibold">{formik.errors.message}</p>
+            <p className="text-destructive text-xs mt-1.5 font-semibold">{formik.errors.message}</p>
           )}
         </div>
 
         {/* 🔐 GOOGLE reCAPTCHA SECURITY MODULE */}
         <div className="flex justify-center py-2 overflow-x-auto">
-        <div className="scale-[0.90] xs:scale-[0.85] sm:scale-100 origin-center transition-transform duration-200">
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey="6LfTfIMtAAAAANLaeIjTgXCXLuwNHjq4MjUviXSq" 
-            onChange={(token) => {
-              formik.setFieldValue('recaptchaToken', token || '');
-              formik.setFieldTouched('recaptchaToken', true, false); // Instantly clears the validation text upon click
-            }}
-            onExpired={() => formik.setFieldValue('recaptchaToken', '')}
-          />
+          <div className="scale-[0.90] xs:scale-[0.85] sm:scale-100 origin-center transition-transform duration-200">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              // ✅ Ensure 'sitekey' is spelled in lowercase with your valid token string inside quotes
+              sitekey="6LdnVwwuAAAAAEdwQOKygvo8IaiP5mQ3pyu0VTlT"
+              theme="dark"
+              onChange={(token) => {
+                formik.setFieldValue('recaptchaToken', token || '');
+                formik.setFieldTouched('recaptchaToken', true, false);
+              }}
+              onExpired={() => formik.setFieldValue('recaptchaToken', '')}
+            />
+
           </div>
         </div>
         {formik.touched.recaptchaToken && formik.errors.recaptchaToken && (
-          <p className="text-red-500 text-xs text-center font-semibold">{formik.errors.recaptchaToken}</p>
+          <p className="text-destructive text-xs text-center font-semibold">{formik.errors.recaptchaToken}</p>
         )}
 
-                {/* TRANSMIT BUTTON */}
+               {/* TRANSMIT BUTTON */}
         <Button
           type="submit"
           disabled={formik.isSubmitting}
-          className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-5 rounded-xl transition text-sm disabled:opacity-50 border-none shadow-md shadow-blue-600/10"
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-5 rounded-xl transition text-sm disabled:opacity-50 border-none shadow-md shadow-primary/10"
         >
           {formik.isSubmitting ? 'Verifying & Processing...' : 'Send Message'}
         </Button>

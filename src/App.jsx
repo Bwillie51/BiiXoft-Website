@@ -26,7 +26,7 @@ export default function App() {
       duration: 1000,
       once: false,
       mirror: true,
-      offset: 80, // Lowered offset to trigger animations smoothly without layout lag
+      offset: 80,
       easing: 'ease-out-cubic',
     });
     
@@ -34,12 +34,11 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-500 selection:text-white antialiased relative overflow-x-hidden scroll-smooth">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-blue-500 selection:text-white antialiased relative overflow-x-hidden scroll-smooth">
       <Navbar />
 
       {/* 📊 CLEAN INTEGRATED CONTENT FEED MATRIX */}
-      {/* Removed "py-28 md:py-36" wrapper layout blocks entirely to close the huge spacing gaps */}
-      <main className="space-y-0 px-0">
+      <main className="space-y-0 px-0 bg-background">
         
         <div data-aos="fade-zoom-in" data-aos-duration="1000">
           <Hero />
@@ -65,8 +64,9 @@ export default function App() {
           <Reviews />
         </div>
 
-        <div data-aos="fade-up">
-          <section id="contact" className="bg-slate-50 border-t border-slate-200/60 py-24">
+        {/* ✅ FIXED: Converted background to your true corporate brand obsidian variables */}
+        <div data-aos="fade-up" className="bg-background border-t border-border">
+          <section id="contact" className="py-24 bg-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <ContactForm />
             </div>
@@ -78,7 +78,7 @@ export default function App() {
       <Footer />
       <Analytics />
 
-      {/* Global Floating WhatsApp Quick Connect Button Option */}
+      {/* Global Floating WhatsApp Quick Connect Button */}
       <div className="fixed bottom-6 right-6 z-50 flex">
         <a
           href={whatsappUrl}

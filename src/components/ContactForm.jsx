@@ -221,7 +221,7 @@ export default function ContactForm() {
           disabled={formik.isSubmitting}
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-5 rounded-xl transition text-sm disabled:opacity-50 border-none shadow-md shadow-primary/10"
         >
-          {formik.isSubmitting ? 'Verifying & Processing...' : 'Send Message'}
+          {formik.isSubmitting ? 'Verifying & Processing...' : 'Submit'}
         </Button>
       </form>
     </div>

@@ -65,7 +65,7 @@ export default function Hero() {
         <div className="w-full lg:w-1/2 text-center lg:text-left flex flex-col items-center lg:items-start lg:pl-8">
           
           <span className="text-2xl font-bold tracking-tight text-foreground mb-3 leading-[1.15]">
-            The Face of Your Business in
+            The Face of Your Business in {'\u00A0\u00A0'}
             <span className="bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent lg:text-inherit lg:opacity-60 lg:text-primary">
               Today's Digital World
             </span>

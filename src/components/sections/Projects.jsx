@@ -112,12 +112,17 @@ export default function Projects() {
         
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-widest text-primary block">
-            Portfolio Showcase
-          </span>
+          
           <h2 className="text-3xl md:text-4xl font-black tracking-tight text-foreground mt-2 mb-4">
             Recent Projects
           </h2>
+          <span className="text-xs font-bold uppercase tracking-widest text-primary block">
+            Portfolio Showcase
+          </span>
+          
+          <p className="text-muted-foreground leading-relaxed font-medium text-sm sm:text-base">
+            Check out some of our latest work and see how we can help bring your ideas to life.
+          </p>  
           <div className="w-12 h-1 bg-primary mx-auto rounded-full" />
         </div>
 
@@ -128,7 +133,7 @@ export default function Projects() {
           </div>
         ) : projectsList.length === 0 ? (
           <div className="text-center py-16 text-muted-foreground text-sm bg-card rounded-3xl border border-dashed border-border">
-            No published projects found inside your Sanity Studio database yet.
+            No published projects yet. Please check back later or contact us for more information.
           </div>
         ) : (
           /* MANUAL-SWIPE CAROUSEL VIEWPOT BOX */

@@ -42,8 +42,9 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border w-full transition-all duration-300 shadow-sm shadow-background/5">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-22 flex items-center justify-between relative">
+    <header className="fixed top-0 left-0 z-50 w-full border-b border-white/5 shadow-xl transition-all duration-300 bg-[#060a17]/95 backdrop-blur-md bg-gradient-to-l from-white/[0.04] via-transparent to-transparent">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-22 flex items-center justify-between relative">
+
         
         {/* Left Side: Brand Logo Cluster */}
         <div 

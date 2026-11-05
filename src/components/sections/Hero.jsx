@@ -29,7 +29,7 @@ export default function Hero() {
 
   return (
     // Swapped light backgrounds and borders to use your brand theme tokens
-    <section id="home" className="relative bg-background w-full overflow-hidden border-b border-border flex items-center min-h-none lg:min-h-[85vh]">
+    <section id="home" className="relative w-full min-h-screen bg-transparent flex items-center justify-center overflow-hidden py-20">
       
       {/* 🖼️ INTEGRATED BACKGROUND GRAPHIC LAYER */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none">

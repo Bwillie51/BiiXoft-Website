@@ -33,9 +33,9 @@ export default function WhyUs() {
           
           {/* Left text breakdown */}
           <div className="lg:col-span-5 text-center lg:text-left">
-            <span className="text-xs font-bold uppercase tracking-widest text-primary block mb-2">
+            {/* <span className="text-xs font-bold uppercase tracking-widest text-primary block mb-2">
               Core Philosophy
-            </span>
+            </span> */}
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-foreground mb-4">
               Why Choose BiiXoft?
             </h2>

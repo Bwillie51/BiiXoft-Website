@@ -36,11 +36,15 @@ export default function Pricing() {
         
         {/* Section Heading Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-widest text-primary block">BiiXoft Ecosystem</span>
-          <h2 className="text-3xl sm:text-4xl font-black text-foreground mt-2 mb-4">Packages & Pricing</h2>
+          {/* <span className="text-xs font-bold uppercase tracking-widest text-primary block">BiiXoft Ecosystem</span> */}
+          <h2 className="text-3xl sm:text-4xl font-black text-foreground mt-2 mb-4">Pricing & Packages</h2>
           <div className="w-12 h-1 bg-primary mx-auto rounded-full mb-6" />
           <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-            All prices are calculated directly in PNG Kina (PGK) inclusive of verified infrastructure provider costs and wholesale markup fees.
+            Explore our flexible pricing plans designed to suit your business needs. Whether you're looking for custom development or reliable hosting solutions, we have a package for you.
+          </p>
+          
+          <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mt-2">
+            Below shows a price package for each of our tow main categories - Website Design and Development and Domain and Hosting Resale.
           </p>
         </div>
 
@@ -123,6 +127,8 @@ export default function Pricing() {
             ))}
           </div>
         )}
+        
+        
 
         {/* 📊 START OF NEW BIIXOFT ALL-IN-ONE COMBO PRICING TABLE ADDITION */}
         <div className="mt-24 border border-border rounded-3xl overflow-hidden shadow-xl bg-card p-6 sm:p-8">

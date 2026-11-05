@@ -1,9 +1,10 @@
+/* src/index.css */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark, *));
 
 @theme inline {
   --font-heading: var(--font-sans);
@@ -39,6 +40,7 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -49,19 +51,19 @@
 }
 
 :root {
-  /* 🌌 Core App Shell Color Shift: Deep Obsidian Metallic Dark Foundations */
-  --background: oklch(0.145 0 0);
+  /* Core App Background Shift: Dark Blue Obsidian Canvas + Ambient Glow Layouts */
+  --background: #040814;
   --foreground: oklch(0.922 0 0);
-  --card: oklch(0.205 0 0);
+  --card: rgba(15, 23, 42, 0.45);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  
-  /* ⚡ Primary Brand Color Shift: Electric Royal Blue Arrow Accent */
+
+  /* Primary Brand Color Shift: Electric Royal Blue Arrow Accent */
   --primary: oklch(0.488 0.243 264.376);
   --primary-foreground: oklch(0.985 0 0);
-  
-  /* 🛠️ Accent, Muted & Secondary Border Layers */
+
+  /* Accent, Muted & Secondary Border Layers */
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -72,16 +74,14 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.488 0.243 264.376);
-  
+
   /* Charts Mapping */
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.37 0 0);
   --chart-5: oklch(0.269 0 0);
-  
-  --radius: 0.625rem;
-  
+
   /* Sidebar Mapping */
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
@@ -91,12 +91,14 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.488 0.243 264.376);
+  
+  --radius: 0.625rem;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #040814;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: rgba(15, 23, 42, 0.45);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -112,11 +114,6 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.488 0.243 264.376);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.37 0 0);
-  --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -132,9 +129,32 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background) !important;
+    background-image: 
+      radial-gradient(circle at 95% 80%, rgba(192, 234, 26, 0.15) 0%, transparent 90%),
+      radial-gradient(circle at 5% 45%, rgba(29, 78, 216, 0.25) 50%, transparent 55%),
+      radial-gradient(circle at 80% 85%, rgba(80, 210, 48, 0.08) 0%, transparent 70%) !important;
+    background-attachment: fixed !important;
+    background-size: cover !important;
+    @apply text-foreground;
   }
   html {
     @apply font-sans;
+  }
+  
+  /* Kill solid dark backgrounds on root content containers so our ambient canvas can show through */
+  main, 
+  section, 
+  div[data-aos] {
+    background-color: transparent !important;
+  }
+  
+  /* Turn cards and forms into frosted panels that complement the background colors */
+  .bg-card, 
+  [className*="bg-card"],
+  div.bg-card {
+    background-color: var(--card) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
   }
 }

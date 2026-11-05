@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { sanityClient } from '@/lib/sanityClient'; // 🔗 Import your connection instance
+import { sanityClient } from '@/lib/sanityClient';
 import imageUrlBuilder from '@sanity/image-url';
 
-// 📷 Configure the Image URL Builder tool to process your Sanity image assets cleanly
 const builder = imageUrlBuilder(sanityClient);
 function urlFor(source) {
   return builder.image(source);
@@ -20,11 +19,10 @@ export default function Projects() {
   const currentTranslate = useRef(0);
   const containerRef = useRef(null);
 
-  // 🔄 Fetch published projects from Sanity CMS using a GROQ API query string
+  // Fetch published projects from Sanity CMS using a GROQ API query string
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        // Pulls all documents matching the 'projectItem' type schema we created
         const query = `*[_type == "projectItem"] | order(_createdAt desc)`;
         const data = await sanityClient.fetch(query);
         
@@ -41,10 +39,10 @@ export default function Projects() {
     fetchProjects();
   }, []);
 
-  // ⏱️ Auto-Scroll Timer Function (Triggers every 5 Seconds)
+  // Auto-Scroll Timer Function (Triggers every 5 Seconds)
   const startAutoScroll = () => {
     stopAutoScroll();
-    if (projectsList.length <= 1) return; // Don't scroll if there is only 1 project
+    if (projectsList.length <= 1) return;
     timerRef.current = setInterval(() => {
       setCurrentIndex((prevIndex) => 
         prevIndex === projectsList.length - 1 ? 0 : prevIndex + 1
@@ -61,7 +59,7 @@ export default function Projects() {
     return () => stopAutoScroll();
   }, [projectsList.length]);
 
-  // 🖱️ Manual Slide Gestures: Touch & Drag Start
+  // Manual Slide Gestures: Touch & Drag Start
   const handleDragStart = (e) => {
     if (projectsList.length <= 1) return;
     stopAutoScroll();
@@ -72,7 +70,7 @@ export default function Projects() {
     }
   };
 
-  // 🖱️ Touch & Drag Movement
+  // Touch & Drag Movement
   const handleDragMove = (e) => {
     if (!isDragging.current) return;
     const currentX = e.type.includes('touch') ? e.touches.clientX : e.clientX;
@@ -86,7 +84,7 @@ export default function Projects() {
     }
   };
 
-  // 🖱️ Touch & Drag Release Evaluation
+  // Touch & Drag Release Evaluation
   const handleDragEnd = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
@@ -109,33 +107,38 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-24 bg-white border-t border-slate-100 w-full overflow-hidden select-none">
+    <section id="projects" className="py-24 bg-background border-t border-border w-full overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Heading */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-600 block">
-            Portfolio Showcase
-          </span>
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mt-2 mb-4">
+          
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-foreground mt-2 mb-4">
             Recent Projects
           </h2>
-          <div className="w-12 h-1 bg-blue-600 mx-auto rounded-full" />
+          <span className="text-xs font-bold uppercase tracking-widest text-primary block">
+            Portfolio Showcase
+          </span>
+          
+          <p className="text-muted-foreground leading-relaxed font-medium text-sm sm:text-base">
+            Check out some of our latest work and see how we can help bring your ideas to life.
+          </p>  
+          <div className="w-12 h-1 bg-primary mx-auto rounded-full" />
         </div>
 
         {/* Loading/Empty State Matrix Handler */}
         {isLoading ? (
-          <div className="text-center py-20 text-slate-400 font-bold tracking-wide animate-pulse">
+          <div className="text-center py-20 text-muted-foreground font-bold tracking-wide animate-pulse">
             Syncing Portfolio Records...
           </div>
         ) : projectsList.length === 0 ? (
-          <div className="text-center py-16 text-slate-400 font-medium text-sm bg-slate-50 rounded-3xl border border-dashed border-slate-200">
-            No published projects found inside your Sanity Studio database yet.
+          <div className="text-center py-16 text-muted-foreground text-sm bg-card rounded-3xl border border-dashed border-border">
+            No published projects yet. Please check back later or contact us for more information.
           </div>
         ) : (
-          /* 🚀 MANUAL-SWIPE CAROUSEL VIEWPOT BOX */
+          /* MANUAL-SWIPE CAROUSEL VIEWPOT BOX */
           <div 
-            className="relative w-full max-w-4xl mx-auto overflow-hidden rounded-3xl shadow-xl shadow-slate-100 border border-slate-100 cursor-grab active:cursor-grabbing"
+            className="relative w-full max-w-4xl mx-auto overflow-hidden rounded-3xl shadow-xl border border-border cursor-grab active:cursor-grabbing"
             onTouchStart={handleDragStart}
             onTouchMove={handleDragMove}
             onTouchEnd={handleDragEnd}
@@ -153,10 +156,10 @@ export default function Projects() {
               {projectsList.map((project, index) => (
                 <div 
                   key={index} 
-                  className="w-full shrink-0 relative h-[320px] sm:h-[420px] md:h-[480px] bg-slate-100 flex flex-col justify-end pointer-events-none"
+                  className="w-full shrink-0 relative h-[320px] sm:h-[420px] md:h-[480px] bg-card flex flex-col justify-end pointer-events-none"
                   style={{ minWidth: '100%' }}
                 >
-                  {/* 🖼️ LIVE BACKGROUND IMAGE GENERATION VIA URL BUILDER */}
+                  {/* LIVE BACKGROUND IMAGE GENERATION VIA URL BUILDER */}
                   {project.imageUrl && (
                     <img 
                       src={urlFor(project.imageUrl).url()} 
@@ -165,12 +168,12 @@ export default function Projects() {
                     />
                   )}
                   
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-slate-950/10 z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent z-10" />
 
-                  {/* 📝 FRONT BOTTOM DESCRIPTION LAYER */}
+                  {/* FRONT BOTTOM DESCRIPTION LAYER */}
                   <div className="relative z-20 p-6 sm:p-10 w-full flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
                     <div className="max-w-xl text-left">
-                      <span className="text-xs font-bold text-blue-400 uppercase tracking-widest block mb-2">
+                      <span className="text-xs font-bold text-primary uppercase tracking-widest block mb-2">
                         {project.category}
                       </span>
                       <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-tight">
@@ -186,13 +189,13 @@ export default function Projects() {
                       </div>
                     </div>
 
-                    {/* 🔗 DYNAMIC LIVE LINK ACCORDING TO CMS PARAMETERS */}
+                    {/* DYNAMIC LIVE LINK ACCORDING TO CMS PARAMETERS */}
                     {project.hasLiveSite && project.liveUrl && (
                       <a 
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="shrink-0 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3.5 rounded-xl text-center shadow-lg pointer-events-auto transition-colors border-none"
+                        className="shrink-0 bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-bold px-6 py-3.5 rounded-xl text-center shadow-lg pointer-events-auto transition-colors border-none"
                       >
                         Launch Live Site
                       </a>
@@ -203,15 +206,15 @@ export default function Projects() {
               ))}
             </div>
 
-            {/* 🔘 Navigation Dots (Only displays if multiple records exist) */}
+            {/* Navigation Dots (Only displays if multiple records exist) */}
             {projectsList.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex space-x-2 bg-slate-950/30 backdrop-blur-md px-3 py-2 rounded-full border border-white/10 pointer-events-auto">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex space-x-2 bg-background/30 backdrop-blur-md px-3 py-2 rounded-full border border-border pointer-events-auto">
                 {projectsList.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
                     className={`w-2 h-2 rounded-full transition-all duration-300 focus:outline-none ${
-                      currentIndex === index ? 'bg-blue-500 w-5' : 'bg-white/50 hover:bg-white'
+                      currentIndex === index ? 'bg-primary w-5' : 'bg-white/50 hover:bg-white'
                     }`}
                     aria-label={`Jump to slide ${index + 1}`}
                   />

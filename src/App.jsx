@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './components/layout/Navbar';
 import Hero from './components/sections/Hero';
 import WhoWeAre from './components/sections/WhoWeAre';
@@ -7,6 +7,7 @@ import Projects from './components/sections/Projects';
 import Pricing from './components/sections/Pricing';
 import Reviews from './components/sections/Reviews';
 import ContactForm from './components/ContactForm';
+import LeaveReview from './components/LeaveReview'; // Imported your review form component
 import Footer from './components/layout/Footer';
 import { Analytics } from '@vercel/analytics/react';
 import whatsappIcon from './imgs/WhatsappIcon.jpg';
@@ -16,38 +17,61 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 export default function App() {
-  const phoneNumber = "67531862924";
+  const [showReviewModal, setShowReviewModal] = useState(false); // Modal control state
+  const phone = "6753102924";
   const message = encodeURIComponent("Hello! I visited your website and would like to know more about your services.");
-  const whatsappUrl = `https://wa.me{phoneNumber}?text=${message}`;
+  const whatsappUrl = `https://wa.me{phone}?text=${message}`;
 
-  // Initialize snappy and optimized transition parameters on mount
+  // Initialize animate and optimized transition parameters on mount
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      once: false,
+      once: true,
       mirror: true,
-      offset: 80, // Lowered offset to trigger animations smoothly without layout lag
+      offset: 80,
       easing: 'ease-out-cubic',
     });
-    
     AOS.refresh();
   }, []);
 
-  return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-500 selection:text-white antialiased relative overflow-x-hidden scroll-smooth">
-      <Navbar />
+  // Structural window overflow hook to block dual scrollbars when form modal overlay sits active
+  useEffect(() => {
+    if (showReviewModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [showReviewModal]);
 
-      {/* 📊 CLEAN INTEGRATED CONTENT FEED MATRIX */}
-      {/* Removed "py-28 md:py-36" wrapper layout blocks entirely to close the huge spacing gaps */}
-      <main className="space-y-0 px-0">
-        
-        <div data-aos="fade-zoom-in" data-aos-duration="1000">
-          <Hero />
-        </div>
+  // src/App.jsx - Update the top-level wrapper div inside return()
+// src/App.jsx - Replace the top wrapper return div with this high-contrast matrix
+return (
+  <div 
+    className="min-h-screen text-foreground font-sans selection:bg-blue-500 selection:text-white antialiased relative overflow-x-hidden scroll-smooth"
+    style={{
+      backgroundColor: '#050b18', // Richer deep navy-obsidian base tone
+      backgroundImage: `
+        radial-gradient(circle at 95% 15%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 5% 45%, rgba(29, 78, 216, 0.22) 0%, transparent 55%),
+        radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.06) 0%, transparent 45%)
+      `,
+      backgroundAttachment: 'fixed'
+    }}
+  >
+    <Navbar />
+    
+    <main className="space-y-0 px-0 bg-transparent pt-22">
 
-        <div data-aos="fade-up">
-          <WhoWeAre />
-        </div>
+
+  
+  <div data-aos="fade-zoom-in" data-aos-duration="1000">
+    <Hero />
+  </div>
+
+  <div data-aos="fade-up">
+    <WhoWeAre />
+  </div>
 
         <div data-aos="fade-up">
           <WhyUs />
@@ -61,36 +85,58 @@ export default function App() {
           <Pricing />
         </div>
 
+        {/* Updated Reviews component callback handler triggers state inversion */}
         <div data-aos="fade-up">
-          <Reviews />
+          <Reviews onLeaveReviewClick={() => setShowReviewModal(true)} />
         </div>
 
-        <div data-aos="fade-up">
-          <section id="contact" className="bg-slate-50 border-t border-slate-200/60 py-24">
+        {/* FIXED: Converted background to your true corporate brand obsidian variables */}
+        <div data-aos="fade-up" className="bg-background border-t border-border">
+          <section id="contact" className="py-24 bg-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <ContactForm />
             </div>
           </section>
         </div>
-        
+
       </main>
 
       <Footer />
+      
       <Analytics />
 
-      {/* Global Floating WhatsApp Quick Connect Button Option */}
+      {/* OVERLAY MODAL SHEET INTERFACE FOR REVIEWS SUBMISSION */}
+      {showReviewModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto bg-card rounded-3xl shadow-2xl border border-border/80">
+            {/* Safe Structural Escape X Anchor Layout Button */}
+            <button 
+              onClick={() => setShowReviewModal(false)}
+              className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full bg-muted hover:bg-border text-muted-foreground hover:text-foreground font-black text-lg transition-colors z-10"
+              aria-label="Close form view"
+            >
+              ✕
+            </button>
+            
+            {/* Embedded Form Component */}
+            <LeaveReview onSuccessClose={() => setTimeout(() => setShowReviewModal(false), 2000)} />
+          </div>
+        </div>
+      )}
+
+      {/* Global Floating WhatsApp Quick Connect Button */}
       <div className="fixed bottom-6 right-6 z-50 flex">
-        <a
+        <a 
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 group relative"
-          aria-label="Chat with BiiXoft on WhatsApp"
+          aria-label="Chat with Biixoft on WhatsApp"
         >
           <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-40 animate-ping group-hover:animate-none pointer-events-none" />
-          <img
-            src={whatsappIcon}
-            alt="WhatsApp Connect"
+          <img 
+            src={whatsappIcon} 
+            alt="WhatsApp Connect" 
             className="h-9 w-9 object-contain rounded-full relative z-10"
           />
         </a>

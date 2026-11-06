@@ -78,6 +78,14 @@ export default function Navbar() {
         </div>
 
         {/* Right Side: Desktop-Only Link Matrix (Hides below 1024px screen widths via lg:flex) */}
+        <div className="hidden lg:flex items-center space-x-2 text-sm font-bold text-muted-foreground shrink-0">
+          <div className="h-5 w-px bg-border mx-4">
+            {/* I Just need a light to appear here */}
+            <div className="w-2 h-2 bg-primary rounded-full" />
+            <logo className="w-2 h-2 bg-primary rounded-full" />
+          </div>
+          </div>
+        {/* Right Side: Desktop-Only Link Matrix (Hides below 1024px screen widths via lg:flex) */}
         <nav className="hidden lg:flex items-center space-x-2 text-sm font-bold text-muted-foreground shrink-0">
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;

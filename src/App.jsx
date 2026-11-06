@@ -4,6 +4,7 @@ import Hero from './components/sections/Hero';
 import WhoWeAre from './components/sections/WhoWeAre';
 import WhyUs from './components/sections/WhyUs';
 import Projects from './components/sections/Projects';
+import OurCustomers from './components/sections/OurCustomers'; // Newly added import for OurCustomers section
 import Pricing from './components/sections/Pricing';
 import Reviews from './components/sections/Reviews';
 import ContactForm from './components/ContactForm';
@@ -52,9 +53,9 @@ return (
     style={{
       backgroundColor: '#050b18', // Richer deep navy-obsidian base tone
       backgroundImage: `
-        radial-gradient(circle at 95% 15%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 5% 45%, rgba(29, 78, 216, 0.22) 0%, transparent 55%),
-        radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.06) 0%, transparent 45%)
+        radial-gradient(circle at 90% 20%, rgba(51, 110, 213, 0.37) 40%, transparent 80%),
+        radial-gradient(circle at 5% 45%, rgba(29, 78, 216, 0.22) 70%, transparent 70%),
+        radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.06) 9%, transparent 65%)
       `,
       backgroundAttachment: 'fixed'
     }}
@@ -79,8 +80,11 @@ return (
 
         <div data-aos="fade-up">
           <Projects />
+          
         </div>
-
+        <div data-aos="fade-up">
+          <OurCustomers />
+        </div>
         <div data-aos="fade-up">
           <Pricing />
         </div>

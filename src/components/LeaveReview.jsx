@@ -130,7 +130,7 @@ export default function LeaveReview({ onSuccessClose }) {
         <button 
           type="submit" 
           disabled={status.loading || status.success}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-sm transition-colors text-sm disabled:opacity-50 cursor-pointer mt-2"
+          className="w-full bg-blue-600 hover:bg-blue-800 text-white font-bold py-3.5 rounded-xl shadow-sm transition-colors text-sm disabled:opacity-50 cursor-pointer mt-2"
         >
           {status.loading ? 'Submitting Review...' : status.success ? 'Submitted' : 'Submit Feedback'}
         </button>
